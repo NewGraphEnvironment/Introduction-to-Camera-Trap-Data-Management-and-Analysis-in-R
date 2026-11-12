@@ -16,3 +16,4 @@
 - Owner approved the force-push: the fork's `ch12-independence-gap` is now `8278ddc`. Fork PRs 3 and 2 merged into `newgraph` (`4b96c1c`, `0471220`); concern branches kept.
 - `newgraph` measured: 4,939 written, 0 / 0 of 4,939 differ, weekly frame identical, weekly total 4,939 under both zones. Table in findings.md.
 - Next: comment on fork issue 1; then the owner decides on upstream.
+- Commented on fork issue 1 with the table, the branches and two wording points for the draft. Labels unchanged; nothing upstream. Next: the owner decides on upstream; `/planning-archive` after that.

@@ -88,7 +88,7 @@ decides whether to send the issue and offer a pull request.
 - [x] Merge both fork PRs into `newgraph` (merge commits), then pull
 - [x] Measure: `check_fixes.R newgraph`: 4,939 written, 0 / 0 of 4,939 differ, `week_obs` identical, weekly total 4,939 under both TZs (`0471220`)
 - [x] Commit the logs and the four-run table in `findings.md`
-- [ ] Comment on fork issue 1 with the table and the two branch names, with nothing upstream.
+- [x] Comment on fork issue 1 with the table and the two branch names, with nothing upstream.
       Leave the labels as they are; the owner decides whether to send the issue
 
 ## Owed at the end (reported, done after merge)
