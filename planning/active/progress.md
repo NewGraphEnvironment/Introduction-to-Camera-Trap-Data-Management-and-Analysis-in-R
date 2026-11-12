@@ -17,3 +17,12 @@
 - `newgraph` measured: 4,939 written, 0 / 0 of 4,939 differ, weekly frame identical, weekly total 4,939 under both zones. Table in findings.md.
 - Next: comment on fork issue 1; then the owner decides on upstream.
 - Commented on fork issue 1 with the table, the branches and two wording points for the draft. Labels unchanged; nothing upstream. Next: the owner decides on upstream; `/planning-archive` after that.
+
+## Session 2026-11-12 (later): ready the in-person heads-up
+
+- Decided with the owner, who is at the course in person: tell the author about the ch 12 slip privately, at a break. Nothing public mid-course. The time-zone item waits until after the course. Nothing is filed upstream unless it is still useful afterwards.
+- History: the slip came from `b8a5ca3` (2026-11-05). It replaced the event loop, which compared `abs(duration)`, with `duration > threshold` in both chapters, and fixed the sort and gap in ch 3 only.
+- Fork issue 1 is rewritten as the ch 12 item alone. The time-zone item is split out to fork issue 4. Both are labelled `upstream-draft` and `upstream-held`.
+- Upstream PR bodies drafted, not opened: `planning/active/upstream/`.
+- In-person line: "Small thing on ch 12 before people do 'On your own': I think last week's ch 3 change to the independence step didn't make it into ch 12. It still sorts by deployment only and has the gap the old way round, and without the old `abs()` it undercounts: on Los Amigos I get 831 detections versus 4,939 with ch 3's lines. Happy to show you or send a PR, whatever's easiest."
+- To show him: https://github.com/NewGraphEnvironment/Introduction-to-Camera-Trap-Data-Management-and-Analysis-in-R/compare/master...ch12-independence-gap
