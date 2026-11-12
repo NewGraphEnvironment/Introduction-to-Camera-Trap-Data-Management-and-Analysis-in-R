@@ -624,7 +624,7 @@ write.csv(mon_count, paste0("data/processed_data/",ind_dat$project_id[1], "_",in
   # For each week, count the number of individuals/observations
   for(i in 1:nrow(week_obs))
     {
-      tmp <- ind_dat[ind_dat$placename==week_obs$placename[i] & strftime(ind_dat$timestamp, format = "%Y-W%U")== week_obs$date[i],]
+      tmp <- ind_dat[ind_dat$placename==week_obs$placename[i] & strftime(ind_dat$timestamp, format = "%Y-W%U", tz = "UTC")== week_obs$date[i],]
       
       tmp_stats <- tmp %>%  group_by(sp, .drop=F) %>% summarise(obs=n(), count=sum(animal_count))
       
