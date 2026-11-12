@@ -74,8 +74,8 @@ decides whether to send the issue and offer a pull request.
       with ch 3's comments
 - [x] `/code-check`, then commit (message names no issue). One review covered both concern diffs over 4 rounds (review-concerns-round1..4.md)
 - [x] Measure: `check_fixes.R ch12-independence-gap`: 5,027 events, 4,939 written, 258 of 4,939 differ (local `8278ddc`)
-- [ ] Push, then open a fork PR into `newgraph` that carries the measured numbers. BLOCKED: the fork has
-      `39cc573`; the amended message (`8278ddc`, same tree) needs a force-push, which the auto-mode classifier denied. Awaiting the owner
+- [x] Push, then open a fork PR into `newgraph` that carries the measured numbers (fork PR 3; the
+      amended `8278ddc` was force-pushed over `39cc573` with the owner's go-ahead, 2026-11-12)
 
 ## Phase 4: Concern 2, `weekly-detection-tz`
 - [x] Branch from `2c79f0e`. Add `, tz = "UTC"` to the detection-week `strftime` at
@@ -85,10 +85,9 @@ decides whether to send the issue and offer a pull request.
 - [x] Push, then open a fork PR into `newgraph` that carries the measured numbers (fork PR 2)
 
 ## Phase 5: Integrate and measure together
-- [ ] Merge both fork PRs into `newgraph` (merge commits), then pull
-- [ ] Measure: `check_fixes.R newgraph`. Expected: 4,939 written, 0 of 4,939 labels
-      differing under Vancouver, `week_obs` identical, and the weekly total the same under both TZs
-- [ ] Commit the logs and the four-run table in `findings.md`
+- [x] Merge both fork PRs into `newgraph` (merge commits), then pull
+- [x] Measure: `check_fixes.R newgraph`: 4,939 written, 0 / 0 of 4,939 differ, `week_obs` identical, weekly total 4,939 under both TZs (`0471220`)
+- [x] Commit the logs and the four-run table in `findings.md`
 - [ ] Comment on fork issue 1 with the table and the two branch names, with nothing upstream.
       Leave the labels as they are; the owner decides whether to send the issue
 
@@ -104,13 +103,13 @@ decides whether to send the issue and offer a pull request.
 
 ## Validation
 
-- [ ] Tests pass (the measurement script's asserts)
-- [ ] `/code-check` clean (each commit, or once over the branch with `/code-check branch`)
-- [ ] PWF checkboxes match landed work
+- [x] Tests pass (the measurement script's asserts; all four runs exit 0)
+- [x] `/code-check` clean (script: 4 rounds, ended clean; concern diffs: 4 rounds, ended by enumerating every figure)
+- [x] PWF checkboxes match landed work
 - [ ] `/planning-archive` on completion
-- [ ] Measurement table, written / labels differing: master 831 / (as measured);
+- [x] Measurement table, written / labels differing: master 831 / 35;
       concern 1 4,939 / 258; concern 2 831 / 0; newgraph 4,939 / 0
-- [ ] `git diff 2c79f0e <concern>` touches only the intended lines, and `git ls-tree` shows
+- [x] `git diff 2c79f0e <concern>` touches only the intended lines, and `git ls-tree` shows
       no `planning/` and `git log` shows no `#N` on either concern branch
 
 Verification is the measurement script run against four git refs, all from the Rmd text at

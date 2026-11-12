@@ -29,3 +29,36 @@ We are happy to open a pull request if that would help, or to leave it with you.
   runs them.
 - Upstream: one maintainer, no stated AI policy, and a commit search found no Claude
   co-authored commits upstream. No open PRs upstream.
+
+## Measured (2026-11-12, `newgraph/check_fixes.R`, logs in `newgraph/logs/`)
+
+Chapter text and Los Amigos tables read from the same commit. "Differ" counts the detections
+whose detection-week label from each chapter's own expression changes between `UTC` and
+`America/Vancouver`.
+
+| ref | sha | images | events | written | differ (ch 12 / ch 3 line) | weekly total UTC / Van | weekly frame identical |
+|---|---|---|---|---|---|---|---|
+| `master` | `2c79f0e` | 69,096 | 852 | 831 | 35 / 35 | 831 / 831 | no |
+| `ch12-independence-gap` | `8278ddc` | 69,096 | 5,027 | 4,939 | 258 / 258 | 4,939 / 4,939 | no |
+| `weekly-detection-tz` | `18165f5` | 69,096 | 852 | 831 | 0 / 0 | 831 / 831 | yes |
+| `newgraph` (both merged) | `0471220` | 69,096 | 5,027 | **4,939** | **0 / 0** | 4,939 / 4,939 | yes |
+
+Images: mammal images identified to species (non-blank, species label present, not
+`sapiens`), once OFF067 is removed, i.e. the rows entering the independence step.
+
+### Two points for the draft's wording
+
+- Item 1 says "69,096 mammal images once OFF067 is removed". After the OFF067 removal there are
+  72,614 mammal images, 3,518 of them with no species label. 69,096 is the count identified to
+  species (round 3 of the concern review).
+- Item 2 says "where that week has no effort row at the placename the detection is not
+  counted". That is true of the code, but on Los Amigos it did not happen: the weekly total
+  is 4,939 under both zones, so the 258 detections were counted in the previous week rather
+  than dropped.
+
+### Other notes
+
+- Ch 3's `ungroup()` is not needed in ch 12. Master's chunk was already grouped, and every
+  later step regroups or ignores the grouping (concern review round 1).
+- Ch 3 is `eval=T` on the Algar data. CI renders on a UTC runner, so the published book does
+  not change from the tz fix (concern review round 3).

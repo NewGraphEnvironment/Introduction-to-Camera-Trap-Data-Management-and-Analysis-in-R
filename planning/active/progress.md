@@ -13,3 +13,6 @@
 - Measured: concern 1 (`8278ddc`) 5,027 events, 4,939 written, 258 of 4,939 differ; concern 2 (`18165f5`) 831 written, 0 / 0 differ, weekly frame identical. A local preview merge of the two (not pushed) gave 4,939 written, 0 / 0 differ, weekly frame identical.
 - Fork PR 2 (`weekly-detection-tz` into `newgraph`) is open.
 - Blocked: the fork has concern 1 at `39cc573` (old message). The force-push of `8278ddc` (same tree) was denied by the auto-mode classifier, so the owner's call is pending.
+- Owner approved the force-push: the fork's `ch12-independence-gap` is now `8278ddc`. Fork PRs 3 and 2 merged into `newgraph` (`4b96c1c`, `0471220`); concern branches kept.
+- `newgraph` measured: 4,939 written, 0 / 0 of 4,939 differ, weekly frame identical, weekly total 4,939 under both zones. Table in findings.md.
+- Next: comment on fork issue 1; then the owner decides on upstream.
