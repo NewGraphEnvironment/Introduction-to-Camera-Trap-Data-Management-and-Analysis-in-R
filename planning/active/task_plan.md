@@ -69,21 +69,20 @@ decides whether to send the issue and offer a pull request.
 - [x] `/code-check`, then commit on `newgraph`
 
 ## Phase 3: Concern 1, `ch12-independence-gap`
-- [ ] Branch from `2c79f0e`. In `12-on_your_own.Rmd:446,448`, use ch 3's
+- [x] Branch from `2c79f0e`. In `12-on_your_own.Rmd:446,448`, use ch 3's
       `arrange(deployment_id, sp, timestamp)` and `int_length(lag(timestamp) %--% timestamp)`,
       with ch 3's comments
-- [ ] `/code-check`, then commit (message names no issue)
-- [ ] Measure: `check_fixes.R ch12-independence-gap`. Expected: 5,027 events, 4,939 written,
-      and still 258 of 4,939 labelled differently under Vancouver on both the ch 12 and ch 3 lines
-- [ ] Push, then open a fork PR into `newgraph` that carries the measured numbers
+- [x] `/code-check`, then commit (message names no issue). One review covered both concern diffs over 4 rounds (review-concerns-round1..4.md)
+- [x] Measure: `check_fixes.R ch12-independence-gap`: 5,027 events, 4,939 written, 258 of 4,939 differ (local `8278ddc`)
+- [ ] Push, then open a fork PR into `newgraph` that carries the measured numbers. BLOCKED: the fork has
+      `39cc573`; the amended message (`8278ddc`, same tree) needs a force-push, which the auto-mode classifier denied. Awaiting the owner
 
 ## Phase 4: Concern 2, `weekly-detection-tz`
-- [ ] Branch from `2c79f0e`. Add `, tz = "UTC"` to the detection-week `strftime` at
+- [x] Branch from `2c79f0e`. Add `, tz = "UTC"` to the detection-week `strftime` at
       `12-on_your_own.Rmd:627` and `03-error-checking.Rmd:1441`
-- [ ] `/code-check`, then commit (message names no issue)
-- [ ] Measure: `check_fixes.R weekly-detection-tz`. Expected: 831 written, 0 labels
-      differing on both lines, `week_obs` identical under the two TZs
-- [ ] Push, then open a fork PR into `newgraph` that carries the measured numbers
+- [x] `/code-check`, then commit (message names no issue)
+- [x] Measure: `check_fixes.R weekly-detection-tz`: 831 written, 0 / 0 differ, weekly frame identical (`18165f5`)
+- [x] Push, then open a fork PR into `newgraph` that carries the measured numbers (fork PR 2)
 
 ## Phase 5: Integrate and measure together
 - [ ] Merge both fork PRs into `newgraph` (merge commits), then pull
