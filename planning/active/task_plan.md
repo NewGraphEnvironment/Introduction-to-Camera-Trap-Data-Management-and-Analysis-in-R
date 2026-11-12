@@ -43,30 +43,30 @@ decides whether to send the issue and offer a pull request.
 ## Phase 1: Integration branch and PWF baseline
 - [x] `git checkout --no-track -b newgraph origin/master` (at `2c79f0e`)
 - [x] `planning/README.md` and `planning/{active,archive}/.gitkeep`, then commit "Initialize planning directory structure"
-- [ ] `planning/active/{task_plan,findings,progress}.md` from this plan, then commit "Initialize PWF baseline for #1"
-- [ ] Push `newgraph` to origin
+- [x] `planning/active/{task_plan,findings,progress}.md` from this plan, then commit "Initialize PWF baseline for #1"
+- [x] Push `newgraph` to origin
 
 ## Phase 2: Measurement script (on `newgraph`), baseline run on master
-- [ ] `newgraph/check_fixes.R <git-ref>` reads `12-on_your_own.Rmd` and `03-error-checking.Rmd`
+- [x] `newgraph/check_fixes.R <git-ref>` reads `12-on_your_own.Rmd` and `03-error-checking.Rmd`
       at that ref (`git show <ref>:<file>`). It copies `data/raw_data/your_data/` to a temp
       dir and runs ch 12's chunks there by phrase: read, dates, remove OFF067, species list,
       filter, effort lookup, threshold, the hidden `animal_count` chunk, independent
       detections. Nothing is patched except the package-install line. Any phrase or
       substitution that does not match exactly once stops the run.
-- [ ] It reports the images entering the independence step (expected 69,096), the event IDs
+- [x] It reports the images entering the independence step (expected 69,096), the event IDs
       (`_raw_detections.csv`), and the rows in the written `_30min_independent_detections.csv`.
-- [ ] Time zone: it pulls the detection-week expression out of the weekly chunk text of ch 12
+- [x] Time zone: it pulls the detection-week expression out of the weekly chunk text of ch 12
       and of ch 3 (the `strftime(ind_dat$timestamp …)` call) and evaluates each on `ind_dat`
       under `Sys.setenv(TZ = "UTC")` and then `"America/Vancouver"`. A guard confirms the TZ
       switch took effect, using a known Sunday 03:00 UTC timestamp. It counts the detections
       whose label differs.
-- [ ] It runs ch 12's analysis-frames chunk (the total, monthly and weekly frames) under both
+- [x] It runs ch 12's analysis-frames chunk (the total, monthly and weekly frames) under both
       TZs, reports the weekly observation totals, and says whether `week_obs` is identical
       under the two.
-- [ ] Baseline run on `2c79f0e`, log to `newgraph/logs/<yyyymmdd>_check_fixes_master.txt`.
+- [x] Baseline run on `2c79f0e`, log to `newgraph/logs/<yyyymmdd>_check_fixes_master.txt`.
       Expected: 852 events, 831 written. The label difference on 831 detections is reported,
       with no expected value.
-- [ ] `/code-check`, then commit on `newgraph`
+- [x] `/code-check`, then commit on `newgraph`
 
 ## Phase 3: Concern 1, `ch12-independence-gap`
 - [ ] Branch from `2c79f0e`. In `12-on_your_own.Rmd:446,448`, use ch 3's

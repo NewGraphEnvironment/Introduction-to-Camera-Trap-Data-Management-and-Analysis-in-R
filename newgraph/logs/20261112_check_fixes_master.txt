@@ -1,0 +1,27 @@
+STEP read                     ch12:17   run (package line replaced)
+STEP dates                    ch12:52   run
+Warning message:
+ 1 failed to parse. 
+STEP remove_OFF067            ch12:298  run
+STEP species_list             ch12:306  run
+STEP filter                   ch12:366  run
+STEP effort_lookup            ch12:385  run
+STEP threshold                ch12:413  run
+STEP animal_count             ch12:435  run
+STEP independent_detections   ch12:442  run
+Warning message:
+In left_join(., bot, by = "event_id") :
+  Detected an unexpected many-to-many relationship between `x` and `y`.
+ℹ Row 1 of `x` matches multiple rows in `y`.
+ℹ Row 12 of `y` matches multiple rows in `x`.
+ℹ If a many-to-many relationship is expected, set `relationship =
+  "many-to-many"` to silence this warning.
+images entering the independence step: 69096
+events: 852; independent detections written: 831
+ch 12 detection week `strftime(ind_dat$timestamp, format = "%Y-W%U")`: 35 of 831 labels differ, Vancouver vs UTC
+ch 3  detection week `strftime(ind_dat$timestamp, format = "%Y-W%U")`: 35 of 831 labels differ, Vancouver vs UTC
+STEP analysis_frames (UTC)    ch12:530  run
+STEP analysis_frames (America/Vancouver) ch12:530  run
+frame observation totals (total / monthly / weekly): UTC 831 / 831 / 831; Vancouver 831 / 831 / 831
+weekly frame identical under UTC and Vancouver: FALSE
+RESULT ref=2c79f0e sha=2c79f0e images=69096 events=852 written=831 ch12_week_diff=35 ch3_week_diff=35 weekly_utc=831 weekly_vancouver=831 week_obs_identical=FALSE
