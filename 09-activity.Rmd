@@ -223,6 +223,91 @@ compareCkern(m1, m2, reps = 100)
 
 Again, the observed overlap (0.83) is lower than we would expect if deer had the same activity pattern on both feature types (0.96), and none of the randomisations produced an overlap this low. This suggests the patterns differ, although they still overlap substantially, so the size of any change looks modest.
 
+## Season comparisons
+
+Every comparison so far pools all months of the year. Solar time stops the short winter day from squeezing dawn and dusk together, but it cannot tell us whether the animals themselves change their daily routine between seasons. If they do, a pooled curve hides it, and a pooled comparison between two species also mixes their seasons in whatever proportions they happened to be detected.
+
+Let's label each detection by season: winter (November to March) and summer (May to August). We leave April, September and October out of the comparison.
+
+```{r ch9_season_1, class.source="Rmain"}
+img_locs$season <- "other"
+img_locs$season[month(img_locs$timestamp) %in% c(11, 12, 1, 2, 3)] <- "winter"
+img_locs$season[month(img_locs$timestamp) %in% 5:8] <- "summer"
+
+# Images per season for our two species
+table(img_locs$sp, img_locs$season)[c("Odocoileus.virginianus", "Rangifer.tarandus"), ]
+```
+
+The two species were detected in very different seasonal proportions: about a quarter of the deer images come from winter, but under a tenth of the caribou images do.
+
+**White-tailed deer in winter and summer**
+
+```{r ch9_season_2, class.source="Rmain"}
+m_win <- fitact(img_locs$solar[img_locs$sp=="Odocoileus.virginianus" &
+                                 img_locs$season=="winter"], sample="model", reps=100)
+m_sum <- fitact(img_locs$solar[img_locs$sp=="Odocoileus.virginianus" &
+                                 img_locs$season=="summer"], sample="model", reps=100)
+
+plot(m_sum, yunit="density", data="none", las=1, lwd=2,
+     tline=list(lwd=2), # Thick line
+     cline=list(lty=0)) # Supress confidence intervals
+
+plot(m_win, yunit="density", data="none", add=TRUE,
+     tline=list(col="red", lwd=2),
+     cline=list(lty=0))
+
+legend("topright", c("Summer", "Winter"), col=1:2, lty=1, lwd=2)
+```
+
+```{r ch9_season_3, class.source="Rmain"}
+compareCkern(m_win, m_sum, reps = 100)
+```
+
+The winter and summer curves overlap by only 0.52, against 0.96 expected if deer kept the same timing relative to sunrise and sunset all year. Part of that gap would appear even for an animal that ignored the sun, because solar time squeezes the long winter night into the same stretch of the axis as the short summer one. The deer go well beyond that. In summer, deer are most active by day, with peaks after sunrise and in the evening, and less active at night. In winter, much of their activity moves into the night. Pooling the seasons blends these two quite different patterns into one curve.
+
+**Caribou in winter and summer**
+
+```{r ch9_season_4, class.source="Rmain"}
+c_win <- fitact(img_locs$solar[img_locs$sp=="Rangifer.tarandus" &
+                                 img_locs$season=="winter"], sample="model", reps=100)
+c_sum <- fitact(img_locs$solar[img_locs$sp=="Rangifer.tarandus" &
+                                 img_locs$season=="summer"], sample="model", reps=100)
+
+compareCkern(c_win, c_sum, reps = 100)
+```
+
+The caribou overlap (0.45) looks even lower, and `pNull` says no randomisation came close. But look at what the winter curve rests on:
+
+```{r ch9_season_5, class.source="Rmain"}
+cw <- img_locs[img_locs$sp=="Rangifer.tarandus" & img_locs$season=="winter", ]
+c(images = nrow(cw), events = length(unique(cw$event_id)), sites = length(unique(cw$placename)))
+```
+
+Sixty-five images, but only 12 detection events at 6 sites. `compareCkern` builds its null by resampling single images, so it treats each frame of a burst as a separate observation. A fairer test keeps each event's images together: shuffle the season labels among *events* and see how often an overlap this low turns up by chance.
+
+```{r ch9_season_6, class.source="Rmain"}
+set.seed(9)
+cs <- img_locs[img_locs$sp=="Rangifer.tarandus" & img_locs$season %in% c("winter", "summer"), ]
+ev <- cs[!duplicated(cs$event_id), c("event_id", "season")] # one season per event
+
+obs <- ovl4(fitact(cs$solar[cs$season=="winter"]), fitact(cs$solar[cs$season=="summer"]))
+
+null <- replicate(100, {
+  s <- sample(ev$season)[match(cs$event_id, ev$event_id)] # shuffle seasons among events
+  ovl4(fitact(cs$solar[s=="winter"]), fitact(cs$solar[s=="summer"]))
+})
+
+c(observed = unname(obs), mean_null = mean(null), p = mean(null <= obs))
+```
+
+With only a dozen winter events, the curves of two random groups of events already overlap by about 0.5 on average, and an overlap as low as the observed one turns up in about a third of these shuffles (the share changes with the seed, but stays far above 5%). So the data do not show that caribou change their timing between seasons. Run the same test on the deer (swap the species in the chunk above) and they pass it easily, because their winter curve rests on many more events. When you split data into strata, always check how many *independent* events each curve rests on, not just how many images.
+
+Three things follow for comparing activity patterns:
+
+-   The deer vs caribou comparison mixes a deer sample that is about a quarter winter with a caribou sample that is under a tenth winter. Comparing species within one season removes that difference in seasonal mix.
+-   The species and feature-type comparisons were tested with `compareCkern` too, so they rest on the same image-level null. Try the event shuffle above on them.
+-   Seasonal comparisons are where the `tz` setting in `solartime()` matters most. If your cameras switch to daylight saving time and you use a single offset, the detections from part of the year sit an hour off the sun.
+
 
 ## On your own
 
@@ -239,6 +324,8 @@ You can also try other categorical strata comparisons, we have:
 ```{r ch9_18, echo=F}
 table(locs$feature_type)
 ```
+
+Try repeating a species or feature type comparison within a single season (`img_locs$season`), and test it with the event shuffle from the season comparisons.
 
 ## Selected further reading
 
