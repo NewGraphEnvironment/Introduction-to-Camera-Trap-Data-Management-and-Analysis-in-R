@@ -166,7 +166,8 @@ The coefficient ranges from 0 (no overlap) to 1 (complete overlap). We can imple
 
 ```{r ch9_12, class.source="Rmain"}
 # Note reps reduced to speed up running time - people typically use 1000.
-compareCkern(m1, m2, reps = 100)
+ck_sp <- compareCkern(m1, m2, reps = 100)
+ck_sp
 ```
 
 The output above represents:
@@ -218,7 +219,8 @@ And perform the statistical test:
 
 ```{r ch9_16, class.source="Rmain"}
 # Note reps reduced to speed up running time - people typically use 1000.
-compareCkern(m1, m2, reps = 100)
+ck_ft <- compareCkern(m1, m2, reps = 100)
+ck_ft
 ```
 
 Again, the observed overlap (0.83) is lower than `compareCkern` expects if deer had the same activity pattern on both feature types (about 0.96), and none of its randomisations produced an overlap this low. Before reading that as a difference, look at what the two curves rest on:
@@ -255,8 +257,21 @@ event_shuffle <- function(x, col, a, b, reps = 100, id = "event_id") {
   })
 
   # n_a and n_b count the events (or sites) in each group
-  data.frame(observed = round(unname(obs), 2), mean_null = round(mean(null), 2),
-             p = mean(null <= obs), n_a = sum(g[[col]]==a), n_b = sum(g[[col]]==b))
+  out <- data.frame(observed = round(unname(obs), 2), mean_null = round(mean(null), 2),
+                    p = mean(null <= obs), n_a = sum(g[[col]]==a), n_b = sum(g[[col]]==b))
+  attr(out, "null") <- null                             # keep the shuffled overlaps,
+  attr(out, "obs") <- unname(obs)                       # and the unrounded observed one, to plot
+  out
+}
+
+# Plot the shuffled overlaps, the observed overlap, and compareCkern's null
+plot_shuffle <- function(res, ck, main) {
+  hist(attr(res, "null"), breaks = 20, xlim = c(0.5, 1), col = "grey80", border = "white",
+       main = main, xlab = "Overlap of the two activity curves", ylab = "Shuffles", las = 1)
+  abline(v = attr(res, "obs"), col = "red", lwd = 2)    # observed overlap
+  abline(v = ck["null"], lty = 2, lwd = 2)              # compareCkern's null
+  legend("topleft", c("Observed", "compareCkern's null"), col = c("red", "black"),
+         lty = c(1, 2), lwd = 2, bty = "n")
 }
 ```
 
@@ -264,10 +279,13 @@ Now test the deer on the two feature types:
 
 ```{r ch9_null_3, class.source="Rmain"}
 set.seed(9)
-event_shuffle(deer, "feature_type", "HumanUse", "Offline")
+ft <- event_shuffle(deer, "feature_type", "HumanUse", "Offline")
+ft
+
+plot_shuffle(ft, ck_ft, "Deer on HumanUse vs Offline lines")
 ```
 
-With feature types shuffled among events, two random groups overlap by only about 0.76 on average, even though the label means nothing: curves fitted to tens or hundreds of events are much noisier than curves fitted to thousands of frames treated as independent. The observed 0.83 is higher than most shuffles, so `p` is high. A high `p` means there is no evidence of a difference, not that the two feature types are more alike than chance. So the data do not show that deer change their activity pattern between HumanUse and Offline lines.
+The grey bars are the overlaps from the 100 shuffles. With feature types shuffled among events, two random groups overlap by only about 0.76 on average, even though the label means nothing: curves fitted to tens or hundreds of events are much noisier than curves fitted to thousands of frames treated as independent. The observed 0.83 (red line) is higher than most shuffles, so `p` is high, and `compareCkern`'s null (dashed line) sits to the right of every shuffle. A high `p` means there is no evidence of a difference, not that the two feature types are more alike than chance. So the data do not show that deer change their activity pattern between HumanUse and Offline lines.
 
 Images from one site are not independent either. Feature type belongs to the camera site, and these deer were detected at only 9 HumanUse and 9 Offline sites. Passing `id = "placename"` shuffles the labels among whole sites instead of events:
 
@@ -282,10 +300,13 @@ The event shuffle on the deer vs caribou comparison from earlier:
 
 ```{r ch9_null_5, class.source="Rmain"}
 set.seed(9)
-event_shuffle(img_locs, "sp", "Odocoileus.virginianus", "Rangifer.tarandus")
+sp_test <- event_shuffle(img_locs, "sp", "Odocoileus.virginianus", "Rangifer.tarandus")
+sp_test
+
+plot_shuffle(sp_test, ck_sp, "Deer vs caribou")
 ```
 
-The observed overlap (0.78) is about the same as that of two random groups of events, and `p` is well above 0.05, so the difference `compareCkern` reported between deer and caribou does not survive either. When you compare activity patterns from raw images, always test them against a null that keeps each event's images together, or each site's when the label belongs to the site.
+The observed overlap (0.78) is about the same as that of two random groups of events (the red line falls among the bars), and `p` is well above 0.05, so the difference `compareCkern` reported between deer and caribou does not survive either. When you compare activity patterns from raw images, always test them against a null that keeps each event's images together, or each site's when the label belongs to the site.
 
 
 ## On your own
