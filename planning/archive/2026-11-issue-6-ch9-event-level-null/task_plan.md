@@ -91,34 +91,42 @@ What exploration found:
       2,053 / 254 / 9 (NatRegen 2,166 / 221 / 9); deer 562 events at 27 sites, caribou 119 at 20
 
 ## Phase 3: Chapter edits (branch `ch9-event-level-null`)
-- [ ] `:181`: say what the deer vs caribou test compares (fix the "feature types" copy error);
+- [x] `:181`: say what the deer vs caribou test compares (fix the "feature types" copy error);
       keep "(pNull<0.01)" as what the image-level null reports, flag it as optimistic, point to
       the treatment section's event-level check
-- [ ] After `ch9_16`: a chunk printing images vs events for deer on each feature type
+- [x] After `ch9_16`: a chunk printing images vs events for deer on each feature type
       (571 / 87, 2,053 / 254), and two or three sentences on why resampling frames of one burst
       makes the null near 1
-- [ ] `ch9_null_*` chunk defining `event_shuffle()` as folded in above, then run on HumanUse vs
+- [x] `ch9_null_*` chunk defining `event_shuffle()` as folded in above, then run on HumanUse vs
       Offline, timed with `system.time`
-- [ ] Reading as folded in above; one sentence on sites (9 and 9)
-- [ ] Run `event_shuffle()` on deer vs caribou; one reading sentence ("about the same")
-- [ ] `:224` rewritten to match the event-level result
-- [ ] "On your own" left as is (PR 7 edits the same spot; the reconcile handles it)
+- [x] Reading as folded in above; one sentence on sites (9 and 9)
+- [x] **Changed by `/code-check` round 1**: the planned sentence "a site-level shuffle could only
+      weaken the result" was an unmeasured direction, and wrong (site-level null 0.80, p ~0.82
+      vs event-level 0.76, p 0.91-0.96). `event_shuffle()` gained `id = "event_id"`; chunk
+      `ch9_null_4` runs it with `id = "placename"` and the prose reads the printed result. The
+      species call moved to `ch9_null_5`; output columns are `n_a` / `n_b`
+- [x] Run `event_shuffle()` on deer vs caribou; one reading sentence ("about the same")
+- [x] `:224` rewritten to match the event-level result
+- [x] "On your own" left as is (PR 7 edits the same spot; the reconcile handles it)
 
 ## Phase 4: Render and check
-- [ ] Render the branch's ch 9 the same way into `<scratch>/branch`; no new warnings or errors
-      against Phase 2; measured run time
-- [ ] Acceptance against the log: both `p` > 0.05; null means within ±0.03 of 0.79 and 0.76;
+- [x] Render the branch's ch 9 the same way into `<scratch>/branch`; no new warnings or errors
+      against Phase 2; 62 s vs 41 s (each `event_shuffle()` call ~6 s)
+- [x] Acceptance against the log: both `p` > 0.05; null means within ±0.03 of 0.79 and 0.76;
       event counts exactly 562 / 119 and 87 / 254. A second seed (direct call) keeps the wording
-- [ ] Every number and quantifier in the new prose checked against the render output; read the
-      plots
-- [ ] `ch9_null_*` labels unique across the book
-- [ ] `/code-check` on the diff, three-round floor (as #5), ended by enumerating every claim
+      (seed 9: 0.83 / 0.76 / p 0.91, 0.78 / 0.79 / p 0.47; seeds 1-3: p 0.92-0.96 and 0.33-0.43,
+      species null 0.80; `observed` equals `compareCkern`'s `obs` to every digit)
+- [x] Every number and quantifier in the new prose checked against the render output (round
+      3b's 32-claim enumeration); no new plots
+- [x] `ch9_null_*` labels unique across the book
+- [x] `/code-check` on the diff, three-round floor (as #5), ended by enumerating every claim
+      (readability pass + rounds 1, 2, 3b; round 3 lost to a network error, re-run to 3b)
 
 ## Phase 5: Commit, PR, report
-- [ ] One commit on `ch9-event-level-null`: `09-activity.Rmd` only, no `#N`, attribution lines
-- [ ] Push; fork PR into `newgraph` (`--repo NewGraphEnvironment/…`), body names the overlap
-      with PR 7, who carries the reconcile, and the reconcile's items (below)
-- [ ] `/planning-archive` on `newgraph`; report with links
+- [x] One commit on `ch9-event-level-null`: `09-activity.Rmd` only, no `#N`, attribution lines (`aa7ee42`)
+- [x] Push; fork PR into `newgraph` (`--repo NewGraphEnvironment/…`), body names the overlap
+      with PR 7, who carries the reconcile, and the reconcile's items (below): fork PR 8
+- [x] `/planning-archive` on `newgraph`; report with links
 
 ## Owed at the end (reported, done after merge)
 - [ ] Reconcile with PR 7, by whichever merges into `newgraph` second (expect a textual conflict
@@ -132,10 +140,10 @@ What exploration found:
 
 ## Validation
 - [x] Baseline: `master`'s ch 9 renders clean into the scratchpad
-- [ ] Ch 9 renders clean from the branch into the scratchpad
-- [ ] `/code-check` clean (three rounds on the chapter diff)
-- [ ] PWF checkboxes match landed work
-- [ ] `/planning-archive` on completion
+- [x] Ch 9 renders clean from the branch into the scratchpad
+- [x] `/code-check` clean (three rounds on the chapter diff)
+- [x] PWF checkboxes match landed work
+- [x] `/planning-archive` on completion
 
 How each change is proved: the branch render prints every figure the prose quotes (event counts,
 observed overlap, shuffle null, p for both comparisons); the Phase 2 render shows nothing else
