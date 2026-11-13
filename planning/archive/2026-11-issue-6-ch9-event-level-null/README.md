@@ -45,7 +45,7 @@ What changed because of these numbers: both readings were corrected, and the sit
 
 ## Owed
 
-- Reconcile with PR 7, by whichever merges into `newgraph` second (expect a textual conflict
+- Reconcile with PR 7, by whichever merges into `newgraph` second (expect a textual conflict at the old `:224`), as below
 - Merge the fork PR into `newgraph` (`/gh-pr-merge`, on the owner's word)
 - The owner decides whether any of it goes upstream
 
