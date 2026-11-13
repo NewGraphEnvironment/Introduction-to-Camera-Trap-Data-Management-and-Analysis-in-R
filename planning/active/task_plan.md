@@ -59,25 +59,25 @@ What exploration found:
 - [x] Plan-agent review in the background (`planning/active/review-plan.md`): no blockers
 
 ## Phase 2: Measure on the chapter's own data (`newgraph/check_ch9_season.R`)
-- [ ] Script reads `raw_detections.csv` and `camera_locations_and_covariates.csv` exactly as
+- [x] Script reads `raw_detections.csv` and `camera_locations_and_covariates.csv` exactly as
       ch 9 does, records its git sha and input md5, and sets a seed
-- [ ] Per species (deer, caribou) × season: images, events, sites; winter vs summer
+- [x] Per species (deer, caribou) × season: images, events, sites; winter vs summer
       `compareCkern` (obs, null, pNull); share of images within 2 h of sunrise and of sunset
-- [ ] The same again with one record per event (the event's first image), to show what the
+- [x] The same again with one record per event (the event's first image), to show what the
       12 caribou winter events can carry. A check, not the chapter's method: ch 9 follows Peral
       et al. on raw data
-- [ ] Feature types: the season mix of deer images on HumanUse vs Offline, and HumanUse vs
+- [x] Feature types: the season mix of deer images on HumanUse vs Offline, and HumanUse vs
       Offline overlap within summer and within winter, against the pooled 0.83
-- [ ] `tz` sensitivity: every figure above under `tz = -6`, `-7`, and DST-following
+- [x] `tz` sensitivity: every figure above under `tz = -6`, `-7`, and DST-following
       (`-6` from 2018-03-11 to 2018-11-04 and 2019-03-10 to 2019-11-03, `-7` otherwise, on
       the stored clock); report the spread. Decision 3's trigger: a qualitative conclusion
       flips between variants (direction of the dawn/dusk shares, or the event-shuffle p
       crossing 0.05)
-- [ ] Review additions: a null that shuffles season across whole events, a core-months
+- [x] Review additions: a null that shuffles season across whole events, a core-months
       check (Dec–Feb vs Jun–Jul), deer vs caribou within each season, a guard that a `tz`
       vector is applied per row (`review-plan.md`)
-- [ ] Log to `newgraph/logs/<yyyymmdd>_check_ch9_season.txt`; table in `findings.md`
-- [ ] `/code-check` on the script; commit with the log
+- [x] Log to `newgraph/logs/<yyyymmdd>_check_ch9_season.txt`; table in `findings.md`
+- [x] `/code-check` on the script; commit with the log (3 rounds, ended by enumerating every number and quantifier in findings against the log)
 
 ## Phase 3: Season section in ch 9 (branch `ch9-activity-season`, worktree)
 - [ ] Create branch and worktree, symlink `data/processed_data`

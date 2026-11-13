@@ -9,7 +9,7 @@ No blockers.
 | 2b | Assumption | Define dusk share on the solar axis; "only the solar version responds to tz" | Disproved by run 1: clock-time shares move with tz too (deer winter sunset 15% at -6, 10% at -7). Kept clock time, which is what "within 2 h of sunset" means to a reader |
 | 3 | Statistics | compareCkern's null ignores clustering in events | Added a null that shuffles season labels across whole events |
 | 4 | Statistics | 12-event caribou curve biased low; need a noise floor | The event-shuffle null is drawn at the same event counts, so its mean and 5th percentile are that floor |
-| 5 | Statistics | Caribou winter: 6 sites vs 18, one winter vs two summers | Goes in the chapter's caution |
+| 5 | Statistics | Caribou winter: 6 sites vs 18, one winter vs two summers | Sites go in the chapter's caution. "One winter" is wrong: 6 of the 12 events are in winter 2018–19 and 6 in one week of November 2019 (checked 2026-11-13; code-check round 1 found the same) |
 | 6 | Statistics | reps > 100 in the script | Script uses 200; chapter keeps 100 |
 | 7 | Gap | DST variant ill-defined in the plan text | Script already uses the 2018/2019 switch dates; plan text corrected |
 | 8 | Assumption | tz vector recycling unverified | Guard added: per-row sunrise equals a single-value call |
