@@ -2,8 +2,9 @@
 
 ## Outcome
 
-Yes for deer, no for caribou. Ch 9 now has a "Season comparisons" section, on branch
-`ch9-activity-season` (`20cbecf`, fork PR 7 into `newgraph`). It splits deer and caribou into
+Pooling blends two different deer curves, though overlap cannot say why; caribou's apparent
+shift is not supported. Ch 9 now has a "Season comparisons" section, on branch
+`ch9-activity-season` (`20cbecf`, then `6bfa636`, fork PR 7 into `newgraph`). It splits deer and caribou into
 winter (Nov–Mar) and summer (May–Aug), compares the curves, and tests the caribou difference with
 a null that shuffles the season label across whole detection events. Three lessons came out of
 it:
@@ -13,8 +14,10 @@ it:
   seasonal shift survives. The chapter's own species and feature-type differences (0.78, 0.83) do
   not, which is filed as fork #6 (option 2, its own branch, decided by the owner).
 - Solar time is not a neutral axis between seasons. Average anchoring squeezes the long winter
-  night and the short summer night onto the same stretch, so an animal that ignored the sun would
-  still show a seasonal overlap of about 0.7.
+  night and the short summer night onto the same stretch, so a deer keeping one clock routine all
+  year would show a seasonal overlap of 0.45–0.59 on it, about the real deer's 0.52. A clock-time
+  comparison (0.66 against 0.95) rules a fixed clock routine out. A routine timed from dusk would
+  fail both tests too, so overlap cannot say what the deer do instead.
 - The `tz` offset moves magnitudes but no conclusion.
 
 Wrong turns, kept as evidence:
@@ -23,14 +26,20 @@ Wrong turns, kept as evidence:
 - The first draft described the deer plot without looking at it.
 - A splice that regenerated a table duplicated half of `findings.md`; it was restored from the
   index.
+- The day-length baseline was first a "sun-blind" deer with uniform clock times (about 0.7), read
+  as showing the deer's 0.52 was a real shift. A realistic clock routine gives 0.45–0.59, and a
+  dusk-timed one fails both axes; the chapter, PR 7 and #5's body were corrected (second review
+  pass, rounds 3 and 4, after the archive).
 
 ## Measurement
 
 On the Algar raw detections (10,219 images), tz -6, 200 reps:
 
 - **Deer, winter vs summer:** overlap 0.52. compareCkern's null is 0.96 and the event-shuffle
-  null 0.78 (p 0.000). A simulated sun-blind deer gives 0.66–0.72. Night share of events rises
-  from 20% in summer to 75% in winter.
+  null 0.78 (p 0.000). On clock time 0.66 (null 0.95). A simulated deer keeping one clock
+  routine gives 0.45–0.59 on solar time; one timing its day from dusk gives solar 0.53–0.57 and
+  clock 0.60–0.67. Night share of events rises from 20% in summer to 75% in winter, which a fixed
+  clock routine also produces (72–78%).
 - **Caribou, winter vs summer:** overlap 0.45. The event-shuffle null is 0.51 (p 0.26), on 12
   winter events at 6 sites.
 - **Chapter comparisons at event level:**

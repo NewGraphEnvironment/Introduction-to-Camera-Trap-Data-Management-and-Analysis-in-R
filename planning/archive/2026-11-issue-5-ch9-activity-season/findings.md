@@ -94,8 +94,9 @@ Deer HumanUse 27% winter, Offline 32%.
 
 What it says:
 
-- **Deer change their daily timing between seasons**, under every variant and against a null
-  that keeps events whole: the summer curve has a much larger dusk share. Pooling hides that.
+- **Deer winter and summer curves differ**, under every variant and against a null that keeps
+  events whole: the summer curve has a much larger dusk share. Pooling hides that. (Corrected
+  later the same day: on solar time this does not show a change of routine; see Chapter review.)
 - **Caribou's apparent seasonal shift is not supported.** The image-level pNull is 0.000, but
   shuffling season across whole events gives p 0.26 at best: 12 winter events at 6 sites carry
   it, 6 in winter 2018–19 and 6 in one week of November 2019. compareCkern's image-resampling
@@ -129,6 +130,16 @@ What it says:
   that; their night share of events goes from 20% in summer to 75% in winter (night is 32% and
   67% of the day).
 - "Winter" is mostly November: 705 of 1,271 deer and 53 of 65 caribou winter images.
+- **Correction (second review pass, after the archive).** The uniform-clock deer above is not a
+  realistic baseline. A deer keeping one clock routine (its own pooled, summer or winter clock
+  times, dates and sites kept) gives 0.45–0.59 on solar time, about the real 0.52, and 72–78% of
+  its winter images at night. On clock time the real deer give 0.66 (null 0.95), a fixed routine
+  0.97, and a one-hour DST shift alone 0.89. A deer timing its day from dusk gives solar
+  0.53–0.57 and clock 0.60–0.67. So the deer keep neither a fixed clock routine nor a fixed place
+  between sunrise and sunset, and overlap cannot say what they do instead. The chapter now has a
+  clock-time chunk and says this (`6bfa636`).
+
+## Errors Encountered
 
 
 | Error | Resolution |
