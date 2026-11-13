@@ -56,7 +56,7 @@ What exploration found:
 ## Phase 1: Free `planning/active/` and lay the baseline (on `newgraph`)
 - [x] `/planning-archive` #1's PWF with the owed upstream decision in its README (`16ccf29`)
 - [ ] Scaffold `planning/active/` for #5 with this plan; commit and push `newgraph`
-- [ ] Plan-agent review in the background (`planning/active/review-plan.md`)
+- [x] Plan-agent review in the background (`planning/active/review-plan.md`): no blockers
 
 ## Phase 2: Measure on the chapter's own data (`newgraph/check_ch9_season.R`)
 - [ ] Script reads `raw_detections.csv` and `camera_locations_and_covariates.csv` exactly as
@@ -69,7 +69,13 @@ What exploration found:
 - [ ] Feature types: the season mix of deer images on HumanUse vs Offline, and HumanUse vs
       Offline overlap within summer and within winter, against the pooled 0.83
 - [ ] `tz` sensitivity: every figure above under `tz = -6`, `-7`, and DST-following
-      (`-6` Mar–Oct, `-7` Nov–Mar by the 2018/2019 transition dates); report the spread
+      (`-6` from 2018-03-11 to 2018-11-04 and 2019-03-10 to 2019-11-03, `-7` otherwise, on
+      the stored clock); report the spread. Decision 3's trigger: a qualitative conclusion
+      flips between variants (direction of the dawn/dusk shares, or the event-shuffle p
+      crossing 0.05)
+- [ ] Review additions: a null that shuffles season across whole events, a core-months
+      check (Dec–Feb vs Jun–Jul), deer vs caribou within each season, a guard that a `tz`
+      vector is applied per row (`review-plan.md`)
 - [ ] Log to `newgraph/logs/<yyyymmdd>_check_ch9_season.txt`; table in `findings.md`
 - [ ] `/code-check` on the script; commit with the log
 
@@ -87,7 +93,8 @@ What exploration found:
 ## Phase 4: Render and check
 - [ ] Render `09-activity.Rmd` alone from the worktree into the scratchpad
       (`rmarkdown::render(..., output_dir = <scratch>, knit_root_dir = <worktree>)`); no errors
-      or warnings beyond what `master` already gives (render `master`'s ch 9 the same way)
+      or warnings beyond what `master` already gives (render `master`'s ch 9 the same way, in
+      the worktree before the edit)
 - [ ] Prose figures match the render log; read the plots
 - [ ] No `ch9_season_*` label elsewhere in the book (bookdown merges chapters)
 - [ ] `/code-check` on the diff (three-round floor)
