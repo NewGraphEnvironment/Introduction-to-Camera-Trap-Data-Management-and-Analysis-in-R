@@ -48,7 +48,6 @@ What changed because of these numbers: both readings were corrected, and the sit
 ## Owed
 
 - Reconcile with PR 7, by whichever merges into `newgraph` second (expect a textual conflict at the old `:224`), as below
-- Merge the fork PR into `newgraph` (`/gh-pr-merge`, on the owner's word)
 - The owner decides whether any of it goes upstream
 
 The reconcile in full, if PR 8 lands first:
@@ -61,4 +60,4 @@ The reconcile in full, if PR 8 lands first:
 
 Fork PR 8 lists the same items.
 
-Closed by: fork PR 8 (`ch9-event-level-null`, `aa7ee42`, `1deacb5`), open.
+Closed by: fork PR 8 (`ch9-event-level-null`, `aa7ee42`, `1deacb5`), merged into `newgraph` as `6a972a6` on 2026-11-13. Fork issue 6 stays open: a merge into `newgraph` closes nothing, and the upstream decision is still owed.

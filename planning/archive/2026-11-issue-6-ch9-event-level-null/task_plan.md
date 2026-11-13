@@ -135,7 +135,7 @@ What exploration found:
       "about 0.5" / "about a third" are rechecked (PR 7 uses `set.seed(9)`); "swap the species in
       the chunk above" changes; the "Try the event shuffle above on them" bullet goes; the
       "On your own" line points to the treatment section
-- [ ] Merge the fork PR into `newgraph` (`/gh-pr-merge`, on the owner's word)
+- [x] Merge the fork PR into `newgraph` (`/gh-pr-merge`, on the owner's word): merged `6a972a6`, 2026-11-13
 - [ ] The owner decides whether any of it goes upstream
 
 ## Validation
