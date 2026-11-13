@@ -107,7 +107,7 @@ decides whether to send the issue and offer a pull request.
 - [x] Tests pass (the measurement script's asserts; all four runs exit 0)
 - [x] `/code-check` clean (script: 4 rounds, ended clean; concern diffs: 4 rounds, ended by enumerating every figure)
 - [x] PWF checkboxes match landed work
-- [ ] `/planning-archive` on completion
+- [x] `/planning-archive` on completion
 - [x] Measurement table, written / labels differing: master 831 / 35;
       concern 1 4,939 / 258; concern 2 831 / 0; newgraph 4,939 / 0
 - [x] `git diff 2c79f0e <concern>` touches only the intended lines, and `git ls-tree` shows
