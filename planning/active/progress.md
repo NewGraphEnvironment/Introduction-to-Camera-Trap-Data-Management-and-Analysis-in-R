@@ -26,3 +26,10 @@
 - Upstream PR bodies drafted, not opened: `planning/active/upstream/`.
 - In-person line: "Small thing on ch 12 before people do 'On your own': I think last week's ch 3 change to the independence step didn't make it into ch 12. It still sorts by deployment only and has the gap the old way round, and without the old `abs()` it undercounts: on Los Amigos I get 831 detections versus 4,939 with ch 3's lines. Happy to show you or send a PR, whatever's easiest."
 - To show him: https://github.com/NewGraphEnvironment/Introduction-to-Camera-Trap-Data-Management-and-Analysis-in-R/compare/master...ch12-independence-gap
+
+## Session 2026-11-13: one checkout, CLAUDE.md
+
+- The session's worktree (`.claude/worktrees/detect`) was removed; the main checkout is now on `newgraph`, and the owner works the course from its `WildCo_Data_Analysis.Rproj`. The cause was a `read.csv` failing in ch 5: the downloaded covariates file sat in the main checkout's `data/processed_data/` while R ran in the worktree.
+- `CLAUDE.md` added on `newgraph` (`9c703e3`) with `.claude/visibility` = public and `<!-- conventions-branch: newgraph -->`, so convention syncs never touch `master`.
+- The notes-repo entry revision is filed in the notes repo (fix branches, measurements, rewrite was pre-course).
+- Still owed: the owner's upstream decision (in-person mention of ch 12 first), then `/planning-archive`.
