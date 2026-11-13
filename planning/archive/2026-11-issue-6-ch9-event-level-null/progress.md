@@ -36,3 +36,12 @@
   sweep found no other unattributed expectation. Loop ended by that enumeration
 - Phase 5: `aa7ee42` on `ch9-event-level-null`, fork PR 8 into `newgraph`. Reviewer agents this
   task: 1 plan review, 1 readability pass, 4 code-check spawns (3 rounds + 1 lost re-run)
+
+## Session 2026-11-13, after the archive
+
+- Owner asked for the story in the plots: each event-shuffle test now draws a histogram of the
+  shuffled overlaps with the observed overlap (red) and `compareCkern`'s null (dashed); `1deacb5`
+  on PR 8. Largest shuffle across seeds 0.84-0.90, against `compareCkern`'s 0.954-0.960
+- `/code-check` on the increment, 3 rounds: round 1, the observed line used the value rounded for
+  printing while `p` used the exact one (4 shuffles on the wrong side in the species plot); fixed
+  with an attribute. Rounds 2 (enumerated every rounded or twice-derived value) and 3 clean

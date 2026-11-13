@@ -1,0 +1,22 @@
+# Review: ch 9 shuffle histograms, round 1 (staged diff on aa7ee42)
+
+## Checklist read
+
+- **code-check.md**: all 14 H3s under `## Mechanisms`, prose only, `|` table rows skipped ("A guard that fails toward pass", "A fixture that cannot reach the failure mode", "A proxy is not the property", "Verification that reads its own output", "A guard's scope, escape hatches, and remedies", "A fix lands in one of two callers that share a harness", "Restore the bug and prove the guard fires", "A shared working tree, and what generators leave in it", "A wrapper's exit is not the work", "Zero-length, empty, and unset are three different things", "The probe is broken before the world is", "Written data outlives the fix", "Serialization loses meaning silently", "One fact derived twice"). I also read "Documentation Staleness" and "An assertion that matches an interpolated value cannot see the claim around it". That is 16 read and 18 not read; they cover security, spreadsheets/PDF and repo process, and none of them applies.
+- **code-check-r.md**: read "Reproducibility", "A duplicate knitr chunk label fails the build, and reading the diff will not find it", "`$` on a list partial-matches, so a longer sibling key answers for a missing one", "Read-back shape must match write-back shape" and "`c(name = x)` keeps `x`'s own name, so a value from a named vector becomes `name.X`". That is 5 read and about 80 not read; they cover packages, testthat, SQL, spatial, IO and so on, and this diff uses none of those tools.
+- **code-check-shell.md**: none read (0 of 70). The diff has no shell, git or sed in it.
+- **code-check-spatial.md**: none read (0 of 93). The diff has no spatial code. The `terra::plot()` legend rule is specific to terra, and this diff uses base `hist()`.
+
+## Findings
+
+- **[severity: fragile]** 09-activity.Rmd:270 (also :260). `plot_shuffle()` draws the red "Observed" line at `res$observed`, which `event_shuffle()` has already rounded to 2 dp. `p` is computed from the unrounded `obs`, so the line and `p` come from two different versions of one number. With `breaks = 20` the bins are 0.01 wide. Rounding can move the line by up to 0.005, which is enough to put it on the other side of a bin edge from the true observed overlap. In the rendered deer vs caribou figure (seed 9) the true observed overlap is 0.7847 and the line is drawn at 0.78, the left edge of the 0.78–0.79 bar. That leaves 43 shuffles at or left of the line, while the printed `p` is 0.47: 4 shuffles at or below the observed overlap are drawn to the right of the "Observed" line. Seeds 1–6 give the same gap of 3–7 shuffles. The histogram is there to show what `p` means, so the line should sit at the observed overlap. One fix: keep the unrounded value next to the null (`attr(out, "obs") <- unname(obs)`) and draw the line there. The prose still holds as written ("falls among the bars", "higher than most shuffles"), so the error is only in the figure.
+  - **Rule:** code-check.md "One fact derived twice"
+
+## Checked and not flagged
+
+- `print(ft)` and `print(sp_test)`, and the `id = "placename"` call, print the same one-row data frame as before: `print.data.frame` does not show the `"null"` attribute, as the rendered output confirms. A sibling branch's `event_shuffle(cs, "season", ...)` therefore keeps working.
+- `ck["null"]` is the named element of `compareCkern`'s numeric vector, and the dashed line renders at 0.954 (species) and 0.960 (feature type). `res$observed` matches the column name exactly, so partial matching cannot occur.
+- `ck_sp` is assigned in ch9_12, before `m1`/`m2` are overwritten in ch9_13/14, so it holds the species comparison. `ck_ft` holds the feature-type comparison. The diff adds no chunk labels. `ft`, `sp_test`, `ck_*` and `plot_shuffle` appear in no other chapter (bookdown merges and knits all chapters in one session).
+- `xlim = c(0.5, 1)` clips nothing: across seeds 9 and 1–6 the smallest shuffled overlap is 0.589 for feature type and 0.650 for species.
+- "compareCkern's null (dashed line) sits to the right of every shuffle" holds: the largest feature-type shuffle across those seeds is 0.868, against 0.960. "Higher than most shuffles" holds (p 0.91–0.96). "Falls among the bars" holds for the species plot (p 0.33–0.47). The prose describes the figure correctly. "The 100 shuffles" matches `reps = 100`.
+- The legend at `"topleft"` does not overlap any bars in either rendered figure.

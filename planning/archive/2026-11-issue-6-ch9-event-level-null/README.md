@@ -36,6 +36,8 @@ Under seeds 1–3 the results hold:
 - **Image-level control:** the function with one id per image gives a null of 0.942 and p 0, which reproduces `compareCkern`'s inflation (round 2).
 - **Run time:** ch 9 renders in about 64 s, against 41 s on `master`; each shuffle call takes about 6 s.
 
+A follow-up commit on PR 8 (`1deacb5`, asked for by the owner) draws each event-shuffle test as a histogram: the shuffled overlaps as bars, the observed overlap in red, and `compareCkern`'s null dashed. The largest shuffle across seeds is 0.84–0.90, well left of `compareCkern`'s 0.95–0.96. The first draft drew the red line at the value rounded for printing (`review-plot-round1.md`).
+
 What changed because of these numbers: both readings were corrected, and the site-level test is shown in the chapter instead of claimed.
 
 ## Evidence
@@ -59,4 +61,4 @@ The reconcile in full, if PR 8 lands first:
 
 Fork PR 8 lists the same items.
 
-Closed by: fork PR 8 (`ch9-event-level-null`, `aa7ee42`), open.
+Closed by: fork PR 8 (`ch9-event-level-null`, `aa7ee42`, `1deacb5`), open.
