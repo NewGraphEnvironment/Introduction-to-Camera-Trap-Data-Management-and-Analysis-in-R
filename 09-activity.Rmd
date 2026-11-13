@@ -176,9 +176,9 @@ The output above represents:
 -   `obs` = observed overlap index;
 -   `null` = mean null overlap index;
 -   `seNull` = standard error of the null distribution;
--   `pNull` = probability observed index arose by chance. Low pNull means the patterns differ.
+-   `pNull` = the share of randomisations that gave an overlap as low as the observed one, or lower. Low pNull means the patterns differ (but see the end of the treatment comparisons below).
 
-The observed overlap (0.78) is lower than we would expect if deer had the same activity pattern on both feature types (0.96), and none of the randomisations produced an overlap this low (pNull=<0.01). This suggests the patterns differ, although they still overlap substantially, so the size of any change looks modest.
+The observed overlap (0.78) is lower than `compareCkern` expects if deer and caribou had the same activity pattern (about 0.95), and none of the randomisations produced an overlap this low (pNull < 0.01). This looks like a difference, but `compareCkern` builds its null by resampling single images, and many of our images are frames from the same burst. That makes the test too quick to call a difference. We come back to it, with a fairer test, at the end of the treatment comparisons below.
 
 ## Treatment comparisons
 
@@ -221,7 +221,71 @@ And perform the statistical test:
 compareCkern(m1, m2, reps = 100)
 ```
 
-Again, the observed overlap (0.83) is lower than we would expect if deer had the same activity pattern on both feature types (0.96), and none of the randomisations produced an overlap this low. This suggests the patterns differ, although they still overlap substantially, so the size of any change looks modest.
+Again, the observed overlap (0.83) is lower than `compareCkern` expects if deer had the same activity pattern on both feature types (about 0.96), and none of its randomisations produced an overlap this low. Before reading that as a difference, look at what the two curves rest on:
+
+```{r ch9_null_1, class.source="Rmain"}
+deer <- img_locs[img_locs$sp=="Odocoileus.virginianus", ]
+
+# Images, detection events and camera sites of deer on each feature type
+sapply(split(deer, deer$feature_type), function(d)
+  c(images = nrow(d), events = length(unique(d$event_id)), sites = length(unique(d$placename))))
+```
+
+The 571 deer images on HumanUse lines come from only 87 detection events, and the 2,053 on Offline lines from 254: a deer walking past a camera triggers a burst of frames. `compareCkern` builds its null by resampling single images, so it treats every frame of a burst as a separate, independent observation. With thousands of such "observations", two curves drawn from the same pattern almost always overlap closely, which is why its null sits so close to 1 and almost any difference looks significant.
+
+A fairer test keeps each event's images together. Give each event its label (here, the feature type of the camera that recorded it), shuffle the labels among the events, refit both curves and measure their overlap. Repeating this many times shows how much two random groups of events overlap when the label means nothing. `p` is the share of shuffles that give an overlap as low as the observed one or lower: a small `p` means an overlap this low rarely turns up by chance.
+
+```{r ch9_null_2, class.source="Rmain"}
+# Compare the activity of two groups (labels a and b in column col), against a null
+# that shuffles the labels among whole detection events (or among whole sites,
+# with id = "placename")
+event_shuffle <- function(x, col, a, b, reps = 100, id = "event_id") {
+  x <- x[x[[col]] %in% c(a, b), ]                       # keep the two groups
+  g <- x[!duplicated(x[[id]]), c(id, col)]              # one label per event
+  if (any(g[[col]][match(x[[id]], g[[id]])] != x[[col]])) {
+    stop("a ", id, " has two ", col, " labels")         # the test needs one per event
+  }
+  lab <- x[[col]]
+  # observed overlap: the coefficient compareCkern reports as obs
+  obs <- ovl4(fitact(x$solar[lab==a]), fitact(x$solar[lab==b]))
+
+  null <- replicate(reps, {
+    s <- sample(g[[col]])[match(x[[id]], g[[id]])]     # shuffle labels among events
+    ovl4(fitact(x$solar[s==a]), fitact(x$solar[s==b]))
+  })
+
+  # n_a and n_b count the events (or sites) in each group
+  data.frame(observed = round(unname(obs), 2), mean_null = round(mean(null), 2),
+             p = mean(null <= obs), n_a = sum(g[[col]]==a), n_b = sum(g[[col]]==b))
+}
+```
+
+Now test the deer on the two feature types:
+
+```{r ch9_null_3, class.source="Rmain"}
+set.seed(9)
+event_shuffle(deer, "feature_type", "HumanUse", "Offline")
+```
+
+With feature types shuffled among events, two random groups overlap by only about 0.76 on average, even though the label means nothing: curves fitted to tens or hundreds of events are much noisier than curves fitted to thousands of frames treated as independent. The observed 0.83 is higher than most shuffles, so `p` is high. A high `p` means there is no evidence of a difference, not that the two feature types are more alike than chance. So the data do not show that deer change their activity pattern between HumanUse and Offline lines.
+
+Images from one site are not independent either. Feature type belongs to the camera site, and these deer were detected at only 9 HumanUse and 9 Offline sites. Passing `id = "placename"` shuffles the labels among whole sites instead of events:
+
+```{r ch9_null_4, class.source="Rmain"}
+set.seed(9)
+event_shuffle(deer, "feature_type", "HumanUse", "Offline", id = "placename")
+```
+
+Shuffling sites gives a different null, but the same answer: `p` is high, and there is no evidence of a difference.
+
+The event shuffle on the deer vs caribou comparison from earlier:
+
+```{r ch9_null_5, class.source="Rmain"}
+set.seed(9)
+event_shuffle(img_locs, "sp", "Odocoileus.virginianus", "Rangifer.tarandus")
+```
+
+The observed overlap (0.78) is about the same as that of two random groups of events, and `p` is well above 0.05, so the difference `compareCkern` reported between deer and caribou does not survive either. When you compare activity patterns from raw images, always test them against a null that keeps each event's images together, or each site's when the label belongs to the site.
 
 
 ## On your own
