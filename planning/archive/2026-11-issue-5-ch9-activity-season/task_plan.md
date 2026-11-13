@@ -55,7 +55,7 @@ What exploration found:
 
 ## Phase 1: Free `planning/active/` and lay the baseline (on `newgraph`)
 - [x] `/planning-archive` #1's PWF with the owed upstream decision in its README (`16ccf29`)
-- [ ] Scaffold `planning/active/` for #5 with this plan; commit and push `newgraph`
+- [x] Scaffold `planning/active/` for #5 with this plan; commit and push `newgraph` (`23aecdd`)
 - [x] Plan-agent review in the background (`planning/active/review-plan.md`): no blockers
 
 ## Phase 2: Measure on the chapter's own data (`newgraph/check_ch9_season.R`)
@@ -80,41 +80,43 @@ What exploration found:
 - [x] `/code-check` on the script; commit with the log (3 rounds, ended by enumerating every number and quantifier in findings against the log)
 
 ## Phase 3: Season section in ch 9 (branch `ch9-activity-season`, worktree)
-- [ ] Create branch and worktree, symlink `data/processed_data`
-- [ ] Add `## Season comparisons` between "Treatment comparisons" and "On your own":
+- [x] Create branch and worktree, symlink `data/processed_data`
+- [x] Add `## Season comparisons` between "Treatment comparisons" and "On your own":
       a `season` column from the month, deer winter vs summer `fitact` + overlay plot +
       `compareCkern`, then caribou, with the caution that its winter curve rests on 12 events
-- [ ] Two or three sentences reading it: the dusk peak is mostly summer, the solar-time
+- [x] Two or three sentences reading it: the dusk peak is mostly summer, the solar-time
       transform does not remove a real seasonal shift, and the pooled species and feature-type
       comparisons each mix seasons in different proportions (figures from Phase 2)
-- [ ] One "On your own" line inviting other strata by season. The `tz` text is left as it is
+- [x] One "On your own" line inviting other strata by season. The `tz` text is left as it is
       unless Phase 2 says otherwise (decision 3)
 
 ## Phase 4: Render and check
-- [ ] Render `09-activity.Rmd` alone from the worktree into the scratchpad
+- [x] Render `09-activity.Rmd` alone from the worktree into the scratchpad
       (`rmarkdown::render(..., output_dir = <scratch>, knit_root_dir = <worktree>)`); no errors
       or warnings beyond what `master` already gives (render `master`'s ch 9 the same way, in
       the worktree before the edit)
-- [ ] Prose figures match the render log; read the plots
-- [ ] No `ch9_season_*` label elsewhere in the book (bookdown merges chapters)
-- [ ] `/code-check` on the diff (three-round floor)
+- [x] Prose figures match the render log; read the plots
+- [x] No `ch9_season_*` label elsewhere in the book (bookdown merges chapters)
+- [x] `/code-check` on the diff (three-round floor)
 
 ## Phase 5: Commit, PR, report
-- [ ] One commit on `ch9-activity-season`: no planning files, no `#N`, `Co-Authored-By` only
-- [ ] Push; fork PR into `newgraph` (`--repo NewGraphEnvironment/…`), body says Claude Code helped
-- [ ] Edit fork issue 5's body with the measured table and the `tz` result (the findings are
-      the spec), and file the `tz` issue if decision 3 is triggered
-- [ ] `/planning-archive`; remove the worktree; report with links
+- [x] One commit on `ch9-activity-season`: no planning files, no `#N`, `Co-Authored-By` only
+- [x] Push; fork PR into `newgraph` (`--repo NewGraphEnvironment/…`), body says Claude Code helped
+- [x] Edit fork issue 5's body with the measured table and the `tz` result (the findings are
+      the spec), and file the `tz` issue if decision 3 is triggered (not triggered; fork #6 filed
+      instead for the event-level null)
+- [x] `/planning-archive`; remove the worktree; report with links
 
 ## Owed at the end (reported, done after merge)
+- [ ] Reconcile with fork #6: whichever of fork PR 7 and fork #6's branch merges into `newgraph` second explains the event shuffle once and reuses it
 - [ ] Merge the fork PR into `newgraph` (`/gh-pr-merge`, on the owner's word)
 - [ ] Ask the author how the Algar cameras kept time (MST all year, or DST)
 - [ ] The owner decides whether any of it goes upstream
 
 ## Validation
-- [ ] `/code-check` clean on the script and on the chapter diff
-- [ ] PWF checkboxes match landed work
-- [ ] `/planning-archive` on completion
+- [x] `/code-check` clean on the script and on the chapter diff
+- [x] PWF checkboxes match landed work
+- [x] `/planning-archive` on completion
 
 How each change is proved: the script's log gives every figure with its input md5 and sha,
 under each `tz`; the ch 9 render from the branch runs clean and its log carries the figures the

@@ -120,7 +120,16 @@ What it says:
 - Existing line 181 says "both feature types" for the deer vs caribou comparison. Left alone (one
   concern per branch); reported.
 
-## Errors Encountered
+## Chapter review (2026-11-13)
+
+- Solar time's average anchoring maps each day's sunrise and sunset to fixed mean times, so the
+  long winter night and the short summer night occupy the same stretch of the axis. A simulated
+  deer with uniform clock times on the real dates and sites gives a winter vs summer overlap of
+  0.66-0.72 (5 draws, tz -6), against 0.96 under compareCkern's null. The deer's 0.52 is below
+  that; their night share of events goes from 20% in summer to 75% in winter (night is 32% and
+  67% of the day).
+- "Winter" is mostly November: 705 of 1,271 deer and 53 of 65 caribou winter images.
+
 
 | Error | Resolution |
 |-------|------------|
