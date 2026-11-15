@@ -402,31 +402,21 @@ cw <- img_locs[img_locs$sp=="Rangifer.tarandus" & img_locs$season=="winter", ]
 c(images = nrow(cw), events = length(unique(cw$event_id)), sites = length(unique(cw$placename)))
 ```
 
-Sixty-five images, but only 12 detection events at 6 sites. `compareCkern` builds its null by resampling single images, so it treats each frame of a burst as a separate observation. A fairer test keeps each event's images together: shuffle the season labels among *events* and see how often an overlap this low turns up by chance.
+Sixty-five images, but only 12 detection events at 6 sites. As with the feature types above, test the difference with `event_shuffle()`, which keeps each event's images together:
 
 ```{r ch9_season_8, class.source="Rmain"}
 set.seed(9)
-cs <- img_locs[img_locs$sp=="Rangifer.tarandus" & img_locs$season %in% c("winter", "summer"), ]
-ev <- cs[!duplicated(cs$event_id), c("event_id", "season")] # one season per event
-
-obs <- ovl4(fitact(cs$solar[cs$season=="winter"]), fitact(cs$solar[cs$season=="summer"]))
-
-null <- replicate(100, {
-  s <- sample(ev$season)[match(cs$event_id, ev$event_id)] # shuffle seasons among events
-  ovl4(fitact(cs$solar[s=="winter"]), fitact(cs$solar[s=="summer"]))
-})
-
-c(observed = unname(obs), mean_null = mean(null), p = mean(null <= obs))
+caribou <- img_locs[img_locs$sp=="Rangifer.tarandus", ]
+event_shuffle(caribou, "season", "winter", "summer")
 ```
 
-With only a dozen winter events, the curves of two random groups of events already overlap by about 0.5 on average, and an overlap as low as the observed one turns up in about a third of these shuffles (the share changes with the seed, but stays far above 5%). So the data do not show that caribou change their timing between seasons. Run the same test on the deer (swap the species in the chunk above) and their winter and summer curves differ well beyond chance, because their winter curve rests on many more events. When you split data into strata, always check how many *independent* events each curve rests on, not just how many images.
+With only a dozen winter events, the curves of two random groups of events already overlap by about 0.5 on average, and an overlap as low as the observed one turns up in about a third of these shuffles (the share changes with the seed, but stays far above 5%). So the data do not show that caribou change their timing between seasons. Run `event_shuffle()` on the deer the same way and their winter and summer curves differ well beyond chance, because their winter curve rests on many more events. When you split data into strata, always check how many *independent* events each curve rests on, not just how many images.
 
 Now look back at the bottom row of the figure, which puts the two species side by side within each season. In summer both peak after sunrise and in the evening, but caribou become active well before sunrise, while deer stay more active through the afternoon. In winter they look very different, but that rests on the same 12 caribou events.
 
-Three things follow for comparing activity patterns:
+Two things follow for comparing activity patterns:
 
 -   The deer vs caribou comparison mixes a deer sample that is about a quarter winter with a caribou sample that is under a tenth winter. Comparing species within one season, as in the bottom row of the figure, removes most of that difference in seasonal mix, though even within winter the caribou images come more from November than the deer images do.
--   The species and feature-type comparisons were tested with `compareCkern` too, so they rest on the same image-level null. Try the event shuffle above on them.
 -   Seasonal comparisons are where the `tz` setting in `solartime()` matters most. If your cameras switch to daylight saving time and you use a single offset, the detections from part of the year sit an hour off the sun.
 
 
@@ -446,7 +436,7 @@ You can also try other categorical strata comparisons, we have:
 table(locs$feature_type)
 ```
 
-Try repeating a species or feature type comparison within a single season (`img_locs$season`), and test it with the event shuffle from the season comparisons. Most of the deer and caribou "winter" images are from November: try narrowing winter to December to February and see whether the deer result holds.
+Try repeating a species or feature type comparison within a single season (`img_locs$season`), and test it with `event_shuffle()`. Most of the deer and caribou "winter" images are from November: try narrowing winter to December to February and see whether the deer result holds.
 
 ## Selected further reading
 
