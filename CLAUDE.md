@@ -19,6 +19,8 @@ New Graph Environment's public fork of `WildCoLab/Introduction-to-Camera-Trap-Da
 - Nothing is posted upstream without the owner's say-so. Upstream references in our issues, commits and PRs stay in backticks.
 - The fork is public: no links to private repos in its issues, commits or PRs.
 - `data/processed_data/` is gitignored and written by running the chapters in order (ch 3 → ch 4 → ch 5 …). Running ch 3 also rewrites the tracked `data/raw_data/*_raw_species_list.csv`; discard that change rather than commit it.
+- To render one chapter, pass `output_format = rmarkdown::html_document()` with `output_dir` and `intermediates_dir` outside the repo and `knit_root_dir` the checkout. Left to `_output.yml`, the book's gitbook format writes `<chapter>.html`, `404.html` and `libs/` into the working directory. A worktree needs `data/processed_data` symlinked to the main checkout's.
+- Soul skills that take a PR (`/gh-pr-merge`) get its full URL, never a bare number, which resolves to upstream here. Pass `/gh-pr-merge` `no-release`: its release steps assume `main`. A merge into `newgraph` closes no issue (GitHub closes only on the default branch, `master`), and Actions does not run on this fork, so no post-merge CI follows.
 
 <!-- conventions-branch: newgraph -->
 
