@@ -240,8 +240,8 @@ A fairer test keeps each event's images together. Give each event its label (her
 ```{r ch9_null_2, class.source="Rmain"}
 # Compare the activity of two groups (labels a and b in column col), against a null
 # that shuffles the labels among whole detection events (or among whole sites,
-# with id = "placename")
-event_shuffle <- function(x, col, a, b, reps = 100, id = "event_id") {
+# with id = "placename"). time names the time column (solar, or clock)
+event_shuffle <- function(x, col, a, b, reps = 100, id = "event_id", time = "solar") {
   x <- x[x[[col]] %in% c(a, b), ]                       # keep the two groups
   g <- x[!duplicated(x[[id]]), c(id, col)]              # one label per event
   if (any(g[[col]][match(x[[id]], g[[id]])] != x[[col]])) {
@@ -249,11 +249,11 @@ event_shuffle <- function(x, col, a, b, reps = 100, id = "event_id") {
   }
   lab <- x[[col]]
   # observed overlap: the coefficient compareCkern reports as obs
-  obs <- ovl4(fitact(x$solar[lab==a]), fitact(x$solar[lab==b]))
+  obs <- ovl4(fitact(x[[time]][lab==a]), fitact(x[[time]][lab==b]))
 
   null <- replicate(reps, {
     s <- sample(g[[col]])[match(x[[id]], g[[id]])]     # shuffle labels among events
-    ovl4(fitact(x$solar[s==a]), fitact(x$solar[s==b]))
+    ovl4(fitact(x[[time]][s==a]), fitact(x[[time]][s==b]))
   })
 
   # n_a and n_b count the events (or sites) in each group
@@ -334,8 +334,12 @@ m_sum <- fitact(img_locs$solar[img_locs$sp=="Odocoileus.virginianus" &
                                  img_locs$season=="summer"], sample="model", reps=100)
 ```
 
+Test the difference with `event_shuffle()` from the treatment comparisons. The deer subset is rebuilt here, because the `deer` table made there has no `season` column:
+
 ```{r ch9_season_3, class.source="Rmain"}
-compareCkern(m_win, m_sum, reps = 100)
+set.seed(9)
+deer_s <- img_locs[img_locs$sp=="Odocoileus.virginianus", ]
+event_shuffle(deer_s, "season", "winter", "summer")
 ```
 
 **Caribou in winter and summer**
@@ -382,18 +386,14 @@ par(mfrow = c(1, 1)) # back to one panel
 
 On this axis, sunrise and sunset sit at the same place all year, at their average times across all the images (about 06:35 and 20:20), so read it as time relative to the sun rather than clock time.
 
-In the top row, the deer curves overlap by only 0.52, against 0.96 expected if deer kept the same timing relative to sunrise and sunset all year. So they do not. But be careful about what that means. Solar time squeezes the long winter night into the same stretch of the axis as the short summer one, so even a deer that kept exactly the same clock-time routine all year would show winter and summer curves about this far apart. Comparing the seasons on clock time as well rules out that simplest alternative:
+In the top row, the deer curves overlap by only 0.52, against about 0.77 for two random groups of deer events, and no shuffle came that low. So deer do not keep the same timing relative to sunrise and sunset all year. But be careful about what that means. Solar time squeezes the long winter night into the same stretch of the axis as the short summer one, so even a deer that kept exactly the same clock-time routine all year would show winter and summer curves about this far apart. Comparing the seasons on clock time as well rules out that simplest alternative:
 
 ```{r ch9_season_6, class.source="Rmain"}
-m_win_clock <- fitact(img_locs$clock[img_locs$sp=="Odocoileus.virginianus" &
-                                       img_locs$season=="winter"], sample="model", reps=100)
-m_sum_clock <- fitact(img_locs$clock[img_locs$sp=="Odocoileus.virginianus" &
-                                       img_locs$season=="summer"], sample="model", reps=100)
-
-compareCkern(m_win_clock, m_sum_clock, reps = 100)
+set.seed(9)
+event_shuffle(deer_s, "season", "winter", "summer", time = "clock")
 ```
 
-On clock time the deer curves still overlap by only 0.66, against 0.95 expected for a fixed clock routine. So the deer keep neither the same clock routine all year nor the same place between sunrise and sunset. Overlap alone cannot say what they do instead: a deer that timed its whole day from dusk, the same way in every season, would fail both tests too. What the tests do show is that the pooled curve blends two different seasonal curves. In summer, the curve peaks after sunrise and in the evening. In winter, most of it falls in the long night. Read the broad shapes rather than the smaller bumps: a curve fitted to a limited number of events picks up wiggles that another year's data might not repeat.
+On clock time the deer curves still overlap by only 0.66, against about 0.76 for two random groups of events, and only 3 of the 100 shuffles came that low: a smaller margin than on solar time, but still beyond chance. So the deer keep neither the same clock routine all year nor the same place between sunrise and sunset. Overlap alone cannot say what they do instead: a deer that timed its whole day from dusk, the same way in every season, would fail both tests too. What the tests do show is that the pooled curve blends two different seasonal curves. In summer, the curve peaks after sunrise and in the evening. In winter, most of it falls in the long night. Read the broad shapes rather than the smaller bumps: a curve fitted to a limited number of events picks up wiggles that another year's data might not repeat.
 
 The caribou panel (top right) looks even more dramatic than the deer. Its overlap (0.45) is lower still, and `pNull` says no randomisation came close. But its winter curve is built from very little: the bump near 18:00, for example, is a single visit ten frames long. Look at what the curve rests on:
 
@@ -410,7 +410,7 @@ caribou <- img_locs[img_locs$sp=="Rangifer.tarandus", ]
 event_shuffle(caribou, "season", "winter", "summer")
 ```
 
-With only a dozen winter events, the curves of two random groups of events already overlap by about 0.5 on average, and an overlap as low as the observed one turns up in about a third of these shuffles (the share changes with the seed, but stays far above 5%). So the data do not show that caribou change their timing between seasons. Run `event_shuffle()` on the deer the same way and their winter and summer curves differ well beyond chance, because their winter curve rests on many more events. When you split data into strata, always check how many *independent* events each curve rests on, not just how many images.
+With only a dozen winter events, the curves of two random groups of events already overlap by about 0.5 on average, and an overlap as low as the observed one turns up in about a third of these shuffles (the share changes with the seed, but stays far above 5%). So the data do not show that caribou change their timing between seasons. The deer passed the same test easily above, because their winter curve rests on many more events. When you split data into strata, always check how many *independent* events each curve rests on, not just how many images.
 
 Now look back at the bottom row of the figure, which puts the two species side by side within each season. In summer both peak after sunrise and in the evening, but caribou become active well before sunrise, while deer stay more active through the afternoon. In winter they look very different, but that rests on the same 12 caribou events.
 
@@ -436,7 +436,7 @@ You can also try other categorical strata comparisons, we have:
 table(locs$feature_type)
 ```
 
-Try repeating a species or feature type comparison within a single season (`img_locs$season`), and test it with `event_shuffle()`. Most of the deer and caribou "winter" images are from November: try narrowing winter to December to February and see whether the deer result holds.
+Try repeating a species or feature type comparison within a single season (`img_locs$season`), and test it with `event_shuffle()` from the treatment comparisons. Most of the deer and caribou "winter" images are from November: try narrowing winter to December to February and see whether the deer result holds.
 
 ## Selected further reading
 
