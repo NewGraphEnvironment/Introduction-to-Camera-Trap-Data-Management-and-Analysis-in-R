@@ -47,7 +47,7 @@ What changed because of these numbers: both readings were corrected, and the sit
 
 ## Owed
 
-- Reconcile with PR 7, by whichever merges into `newgraph` second (expect a textual conflict at the old `:224`), as below
+- Reconcile with PR 7, by whichever merges into `newgraph` second (expect a textual conflict at the old `:224`), as below. **Done** in fork PR 7, merged 2026-11-15 (`73022f5`); no textual conflict occurred. It also added an optional `time` argument to `event_shuffle()` (default `"solar"`, so this issue's calls are unchanged).
 - The owner decides whether any of it goes upstream
 
 The reconcile in full, if PR 8 lands first:

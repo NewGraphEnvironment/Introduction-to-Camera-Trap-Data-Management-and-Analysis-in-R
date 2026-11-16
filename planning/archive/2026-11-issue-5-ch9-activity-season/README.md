@@ -36,7 +36,8 @@ Wrong turns, kept as evidence:
 On the Algar raw detections (10,219 images), tz -6, 200 reps:
 
 - **Deer, winter vs summer:** overlap 0.52. compareCkern's null is 0.96 and the event-shuffle
-  null 0.78 (p 0.000). On clock time 0.66 (null 0.95). A simulated deer keeping one clock
+  null 0.78 (p 0.000). On clock time 0.66 (compareCkern's null 0.95; event-shuffle null 0.76, p 0.03
+  at seed 9, 0 to 0.08 across seeds; the chapter now quotes the event-level nulls). A simulated deer keeping one clock
   routine gives 0.45–0.59 on solar time; one timing its day from dusk gives solar 0.53–0.57 and
   clock 0.60–0.67. Night share of events rises from 20% in summer to 75% in winter, which a fixed
   clock routine also produces (72–78%).
@@ -63,7 +64,7 @@ reporting a caribou shift, and fork #6 exists.
 
 ## Owed
 
-- Reconcile with fork #6: whichever of fork PR 7 and fork #6's branch merges into `newgraph` second explains the event shuffle once and reuses it
+- Reconcile with fork #6: whichever of fork PR 7 and fork #6's branch merges into `newgraph` second explains the event shuffle once and reuses it. **Done** in fork PR 7, merged 2026-11-15 (`73022f5`): PR 8 landed first.
 - Merge the fork PR into `newgraph` (`/gh-pr-merge`, on the owner's word)
 - Ask the author how the Algar cameras kept time (MST all year, or DST)
 - The owner decides whether any of it goes upstream
