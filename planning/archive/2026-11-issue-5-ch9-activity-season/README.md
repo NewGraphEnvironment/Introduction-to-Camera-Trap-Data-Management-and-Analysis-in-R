@@ -65,8 +65,8 @@ reporting a caribou shift, and fork #6 exists.
 ## Owed
 
 - Reconcile with fork #6: whichever of fork PR 7 and fork #6's branch merges into `newgraph` second explains the event shuffle once and reuses it. **Done** in fork PR 7, merged 2026-11-15 (`73022f5`): PR 8 landed first.
-- Merge the fork PR into `newgraph` (`/gh-pr-merge`, on the owner's word)
-- Ask the author how the Algar cameras kept time (MST all year, or DST)
-- The owner decides whether any of it goes upstream
+- Merge the fork PR into `newgraph` (`/gh-pr-merge`, on the owner's word). **Done** 2026-11-15 (`73022f5`).
+- Ask the author how the Algar cameras kept time (MST all year, or DST). **Dropped** 2026-11-15: nothing goes to upstream, so `tz = -6` stays.
+- The owner decides whether any of it goes upstream. **Decided** 2026-11-15: nothing goes upstream.
 
-Closed by: fork PR 7 (`ch9-activity-season`, `20cbecf`), open; measurement in `cf9a3da` on `newgraph`.
+Closed by: fork PR 7 (`ch9-activity-season`), merged into `newgraph` as `73022f5` on 2026-11-15; fork issue 5 closed the same day; measurement in `cf9a3da` on `newgraph`.

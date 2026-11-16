@@ -48,7 +48,7 @@ What changed because of these numbers: both readings were corrected, and the sit
 ## Owed
 
 - Reconcile with PR 7, by whichever merges into `newgraph` second (expect a textual conflict at the old `:224`), as below. **Done** in fork PR 7, merged 2026-11-15 (`73022f5`); no textual conflict occurred. It also added an optional `time` argument to `event_shuffle()` (default `"solar"`, so this issue's calls are unchanged).
-- The owner decides whether any of it goes upstream
+- The owner decides whether any of it goes upstream. **Decided** 2026-11-15: nothing goes upstream.
 
 The reconcile in full, if PR 8 lands first:
 
@@ -60,4 +60,4 @@ The reconcile in full, if PR 8 lands first:
 
 Fork PR 8 lists the same items.
 
-Closed by: fork PR 8 (`ch9-event-level-null`, `aa7ee42`, `1deacb5`), merged into `newgraph` as `6a972a6` on 2026-11-13. Fork issue 6 stays open: a merge into `newgraph` closes nothing, and the upstream decision is still owed.
+Closed by: fork PR 8 (`ch9-event-level-null`, `aa7ee42`, `1deacb5`), merged into `newgraph` as `6a972a6` on 2026-11-13. Fork issue 6 was closed on 2026-11-15, once the owner decided nothing goes upstream.

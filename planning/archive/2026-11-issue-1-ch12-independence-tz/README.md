@@ -37,7 +37,7 @@ a draft figure (69,096 is the count identified to species, not all mammal images
 
 - The owner decides whether to send the upstream issue and offer the PR. If yes: post the
   issue text as approved, and offer the `Assisted-by` reword in any PR (no Claude
-  co-authored commit is merged upstream)
+  co-authored commit is merged upstream). **Decided** 2026-11-15: nothing goes upstream.
 - Revise the upstream-projects notes entry for this book (fix branches, measured results,
   the pin option), in the notes repo, not from here. Filed there 2026-11-13, with the
   correction that the rewrite (`b8a5ca3`, 2026-11-05) was pre-course
